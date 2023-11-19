@@ -4,6 +4,7 @@ import { StudentServices } from './student.service';
 const createStudent = async (req: Request, res: Response) => {
   try{
 const {student : studentData} = req.body;
+console.log("🚀 ~ file: student.controller.ts:7 ~ createStudent ~ studentData:", studentData)
 
 //will call service function to send this data
 
