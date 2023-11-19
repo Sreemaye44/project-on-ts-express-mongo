@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, response } from 'express';
 import { StudentServices } from './student.service';
 
 const createStudent = async (req: Request, res: Response) => {
@@ -19,6 +19,36 @@ res.status(200).json({
     console.log(error)
   }
 };
-export const studentControllers={
-    createStudent
+
+const getAllStudents=async(req:Request, res:Response)=>{
+  try{
+    const result=await StudentServices.getAllStudentsFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'students are retrieved successfully',
+      data: result,
+    });
+
+  }catch(error){
+    console.log(error);
+  }
 }
+const getSingleStudent=async(req:Request, res:Response)=>{
+  try{
+    const {studentId}=req.params;
+    const result=await StudentServices.getsingleStudentFromDB(studentId);
+    res.status(200).json({
+      success: true,
+      message: 'student is retrieved successfully',
+      data: result,
+    });
+
+  }catch(error){
+    console.log(error);
+  }
+}
+export const studentControllers = {
+  createStudent,
+  getAllStudents,
+  getSingleStudent
+};
