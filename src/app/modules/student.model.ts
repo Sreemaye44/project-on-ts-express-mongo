@@ -9,21 +9,39 @@ import {
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: true,
+    required: [true, 'First Name is required'],
+    trim: true, //space remove
+    maxlength: [20, 'First name can not be more than 20'],
+    validate: {
+      validator: function (value:string) {
+        const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+        return firstNameStr === value;
+      },
+      message: '{VALUE} is not in capitaliza format'
+    },
   },
   middleName: {
     type: String,
+    trim: true,
   },
   lastName: {
     type: String,
-    required: true,
+    trim: true,
+    required: [true, 'Last Name is required'],
   },
 });
-const guardianSchema = new Schema<Guardian>({
-  fatherName: { type: String, required: true },
-  fatherOccupation: { type: String, required: true },
-  fatherContactName: { type: String, required: true },
-  motherName: { type: String, required: true },
+const GuardianSchema = new Schema<Guardian>({
+  fatherName: { type: String, required: [true, 'father name is required'] },
+  fatherOccupation: {
+    type: String,
+    required: [true, 'father occupation Name is required'],
+  },
+  fatherContactName: {
+    type: String,
+    trim: true,
+    required: [true, 'father contact No is required'],
+  },
+  motherName: { type: String, required: true, trim: true },
   motherOccupation: { type: String, required: true },
   motherContactName: { type: String, required: true },
 });
@@ -34,20 +52,30 @@ const LocalGuardianSchema = new Schema<LocalGuardian>({
   contactNo: { type: String, required: true },
 });
 const studentSchema = new Schema<Student>({
-  id: { type: String },
-  name: userNameSchema,
-  gender: ['male', 'female'], //using enum type
+  id: { type: String, required: true, unique: true },
+  name: { type: userNameSchema, required: true },
+  gender: {
+    type: String,
+    enum: {
+      values: ['male', 'female', 'other'],
+      message: '{VALUE} is not valid',
+    },
+    required: true,
+  }, //using enum type
   email: { type: String, required: true },
   dateOfBirth: { type: String },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
-  bloodGroup: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  bloodGroup: {
+    type: String,
+    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  },
   presentAdress: { type: String, required: true },
   permanentAdress: { type: String, required: true },
-  guardian: guardianSchema,
-  localGurdian: LocalGuardianSchema,
+  guardian: { type: GuardianSchema, required: true },
+  localGurdian: { type: LocalGuardianSchema, required: true },
   profileImage: { type: String, required: true },
-  isActive: ['active', 'inactive'],
+  isActive: { type: String, enum: ['active', 'inactive'], default: 'active' },
 });
 
 //creating model
