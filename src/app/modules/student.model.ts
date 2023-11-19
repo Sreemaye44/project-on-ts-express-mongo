@@ -5,6 +5,8 @@ import {
   Student,
   UserName,
 } from './student/student.interface';
+import validator from 'validator';
+
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -13,11 +15,11 @@ const userNameSchema = new Schema<UserName>({
     trim: true, //space remove
     maxlength: [20, 'First name can not be more than 20'],
     validate: {
-      validator: function (value:string) {
+      validator: function (value: string) {
         const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
         return firstNameStr === value;
       },
-      message: '{VALUE} is not in capitaliza format'
+      message: '{VALUE} is not in capitaliza format',
     },
   },
   middleName: {
@@ -28,6 +30,12 @@ const userNameSchema = new Schema<UserName>({
     type: String,
     trim: true,
     required: [true, 'Last Name is required'],
+    validate: {
+      validator: (value: string) => 
+        validator.isAlpha(value)
+      ,
+      message: '{VALUE} is not valid',
+    },
   },
 });
 const GuardianSchema = new Schema<Guardian>({
@@ -62,7 +70,7 @@ const studentSchema = new Schema<Student>({
     },
     required: true,
   }, //using enum type
-  email: { type: String, required: true },
+  email: { type: String, required: true, validate: {validator: (value:string)=> validator.isEmail(value), message: '{VALUE} is not a valid email'} },
   dateOfBirth: { type: String },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },

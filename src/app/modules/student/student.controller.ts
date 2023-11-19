@@ -1,8 +1,20 @@
 import { Request, Response, response } from 'express';
 import { StudentServices } from './student.service';
+import Joi from 'joi';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
+    //create a schema validation using joi
+
+    const JoivalidationSchema = Joi.object({
+      id: Joi.string(),
+      name: {
+        firstName: Joi.string().max(20).required(),
+        middleName: Joi.string().max(20),
+        lastName: Joi.string().max(20)
+      },
+      gender: Joi.string().required().valid(['male', 'female', ])
+    });
     const { student: studentData } = req.body;
     console.log(
       '🚀 ~ file: student.controller.ts:7 ~ createStudent ~ studentData:',
