@@ -61,11 +61,11 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'student is retrieved successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (err:any) {
     res.status(500).json({
       success: false,
-      message: 'something went wrong',
-      error: error,
+      message: err.message||'something went wrong',
+      error: err,
     });
   }
 };
