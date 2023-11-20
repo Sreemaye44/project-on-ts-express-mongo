@@ -1,7 +1,7 @@
 import { Schema, model, connect } from 'mongoose';
 export type UserName = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 export type Guardian = {
@@ -22,7 +22,7 @@ export type Student = {
   id: string;
   name: UserName;
   email: string;
-  gender: 'male' | 'female';
+  gender: 'male' | 'female'|'other';
   dateOfBirth?: string;
   contactNo: string;
   emergencyContactNo: string;

@@ -7,7 +7,6 @@ import {
 } from './student/student.interface';
 import validator from 'validator';
 
-
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
@@ -31,9 +30,7 @@ const userNameSchema = new Schema<UserName>({
     trim: true,
     required: [true, 'Last Name is required'],
     validate: {
-      validator: (value: string) => 
-        validator.isAlpha(value)
-      ,
+      validator: (value: string) => validator.isAlpha(value),
       message: '{VALUE} is not valid',
     },
   },
@@ -70,7 +67,14 @@ const studentSchema = new Schema<Student>({
     },
     required: true,
   }, //using enum type
-  email: { type: String, required: true, validate: {validator: (value:string)=> validator.isEmail(value), message: '{VALUE} is not a valid email'} },
+  email: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: '{VALUE} is not a valid email',
+    },
+  },
   dateOfBirth: { type: String },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
