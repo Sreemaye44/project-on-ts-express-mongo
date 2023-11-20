@@ -1,4 +1,4 @@
-import { Schema, model, connect, Model } from 'mongoose';
+import { Schema, model, connect, Model, Models } from 'mongoose';
 export type TUserName = {
   firstName: string;
   middleName?: string;
@@ -35,8 +35,15 @@ export type TStudent = {
   isActive: 'active' | 'inactive';
 };
 
-export type StudentMehod={
-  isUserExists(id: string):Promise<TStudent|null>
+//For creating static
+export interface StudentModel extends Model<TStudent>{
+  isUserExists(id: string): Promise<TStudent|null>
 }
 
-export type StudentModel=Model<TStudent, Record<string,never>, StudentMehod>
+//For creating instance
+
+// export type StudentMehod={
+//   isUserExists(id: string):Promise<TStudent|null>
+// }
+
+// export type StudentModel=Model<TStudent, Record<string,never>, StudentMehod>

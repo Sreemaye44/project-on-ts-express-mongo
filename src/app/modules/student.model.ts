@@ -3,7 +3,6 @@ import {
   TGuardian,
   TLocalGuardian,
   TStudent,
-  StudentMehod,
   StudentModel,
   TUserName,
 } from './student/student.interface';
@@ -58,7 +57,7 @@ const LocalGuardianSchema = new Schema<TLocalGuardian>({
   occupation: { type: String, required: true },
   contactNo: { type: String, required: true },
 });
-const studentSchema = new Schema<TStudent, StudentModel, StudentMehod>({
+const studentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, required: true, unique: true },
   name: { type: userNameSchema, required: true },
   gender: {
@@ -91,12 +90,16 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMehod>({
   profileImage: { type: String, required: true },
   isActive: { type: String, enum: ['active', 'inactive'], default: 'active' },
 });
-
-//creating model
-
-
-studentSchema.methods.isUserExists= async function(id:string){
-  const existingUser=await Student.findOne({id: id});
+//creatiing a custom static method
+studentSchema.statics.isUserExists = async function (id:string) {
+  const existingUser = await Student.findOne({ id });
   return existingUser;
-}
+};
+
+//creating a custom instance method
+
+// studentSchema.methods.isUserExists= async function(id:string){
+//   const existingUser=await Student.findOne({id: id});
+//   return existingUser;
+// }
 export const Student = model<TStudent, StudentModel>('student', studentSchema);
