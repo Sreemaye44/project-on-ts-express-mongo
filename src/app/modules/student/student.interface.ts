@@ -1,4 +1,4 @@
-import { Schema, model, connect, Model, Models } from 'mongoose';
+import { Model} from 'mongoose';
 export type TUserName = {
   firstName: string;
   middleName?: string;
