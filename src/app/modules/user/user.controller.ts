@@ -1,6 +1,13 @@
-import { UserService } from "./user.service";
+import { NextFunction, Request, Response } from 'express';
+import { UserService } from './user.service';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
 
-const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     //create a schema validation using zot
 
@@ -14,28 +21,18 @@ const createStudent = async (req: Request, res: Response) => {
     // const zotParseData = StudentValidationSchema.parse(studentData);
 
     const result = await UserService.createStudentIntoDB(password, studentData);
-
-    // if (error) {
-    //   res.status(500).json({
-    //     success: false,
-    //     message: 'something went wrong',
-    //     error: error.details,
-    //   });
-    // }
-
     //send response
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: 'student is created successfully',
+      message: 'Student created successfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'went wrong',
-      error: error,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const 
+export const userController = {
+  createStudent,
+};
