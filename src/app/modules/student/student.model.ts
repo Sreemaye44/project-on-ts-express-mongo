@@ -84,7 +84,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
         message: '{VALUE} is not a valid email',
       },
     },
-    dateOfBirth: { type: String },
+    dateOfBirth: { type: Date },
     contactNo: { type: String, required: true },
     emergencyContactNo: { type: String, required: true },
     bloodGroup: {
