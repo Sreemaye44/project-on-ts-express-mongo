@@ -1,5 +1,4 @@
 import config from '../../config';
-import { TAcademicSemester } from '../academicSemester/academicSemester.interface';
 import { academicSemester } from '../academicSemester/academicSemister.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -22,22 +21,23 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   userData.role = 'student';
   //year semesterCode 4digitNumber
 
-
   //find academic semester info
-  const admissionSemester=await academicSemester.findById(payload.admissionSemester)
+  const admissionSemester = await academicSemester.findById(
+    payload.admissionSemester,
+  );
   //set manually id
-  userData.id =generateStudentId(admissionSemester);
+  userData.id = generateStudentId(admissionSemester);
   //create a user
-  const newUser = await User.create(userData); 
+  const newUser = await User.create(userData);
 
   //create a student
 
   if (Object.keys(newUser).length) {
     //set id, _id as user
-    studentData.id = newUser.id;
-    studentData.user = newUser._id;  //reference id
+    payload.id = newUser.id;
+    payload.user = newUser._id; //reference id
 
-    const newStudent=await Student.create(studentData)
+    const newStudent = await Student.create(payload);
     return newStudent;
   }
   //built in static method
