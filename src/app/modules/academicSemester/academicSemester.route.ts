@@ -1,5 +1,5 @@
 import express from 'express';
-import { academicSemesterController } from './academicSemester.controller';
+import {AcademicSemesterController } from './academicSemester.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { AcademicSemesterValidation } from './academicSemester.validation';
 
@@ -10,6 +10,18 @@ router.post(
   validateRequest(
     AcademicSemesterValidation.createAcademicSemistervalidationSchema,
   ),
-  academicSemesterController.createAcademicSemester,
+  AcademicSemesterController.createAcademicSemester,
 );
+
+router.get('/:semesterId', AcademicSemesterController.getSingleAcademicSemester)
+router.patch(
+  '/:semesterId',
+  validateRequest(
+    AcademicSemesterValidation.updateAcademicSemistervalidationSchema,
+  ),
+  AcademicSemesterController.updateAcademicSemester,
+);
+
+router.get('/', AcademicSemesterController.getAllAcademicSemesters);
+
 export const AcademicSemesterRoutes = router;
