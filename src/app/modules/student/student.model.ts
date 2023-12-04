@@ -8,7 +8,6 @@ import {
 } from './student.interface';
 import validator from 'validator';
 
-
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -79,6 +78,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     email: {
       type: String,
       required: true,
+      unique: true,
       validate: {
         validator: (value: string) => validator.isEmail(value),
         message: '{VALUE} is not a valid email',
@@ -95,8 +95,8 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     permanentAdress: { type: String, required: true },
     guardian: { type: GuardianSchema, required: true },
     localGurdian: { type: LocalGuardianSchema, required: true },
-    profileImage: { type: String},
-    admissionSemester: {type: Schema.Types.ObjectId, ref: 'AcademicSemister'},
+    profileImage: { type: String },
+    admissionSemester: { type: Schema.Types.ObjectId, ref: 'AcademicSemister' },
     isDeleted: { type: Boolean, defaullt: false },
   },
   {
@@ -112,7 +112,6 @@ studentSchema.virtual('fullName').get(function () {
 });
 
 //create pre save middleware
-
 
 //  Query middleware
 

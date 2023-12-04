@@ -8,6 +8,7 @@ const userSchema = new Schema<TUser>(
     id: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -24,7 +25,7 @@ const userSchema = new Schema<TUser>(
     status: {
       type: String,
       enum: ['in-progress', 'blocked'],
-      default: 'in-progress'
+      default: 'in-progress',
     },
     isDeleted: {
       type: Boolean,
@@ -32,10 +33,9 @@ const userSchema = new Schema<TUser>(
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   },
 );
-
 
 userSchema.pre('save', async function (next) {
   const user = this;
@@ -49,4 +49,4 @@ userSchema.post('save', function (doc, next) {
   doc.password = '******';
   next();
 });
-export const User=model<TUser>('User', userSchema)
+export const User = model<TUser>('User', userSchema);
