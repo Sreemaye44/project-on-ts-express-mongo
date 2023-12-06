@@ -1,3 +1,4 @@
+import { academicSemester } from '../academicSemester/academicSemister.model';
 import { TStudent } from './student.interface';
 import { Student } from './student.model';
 
@@ -17,11 +18,26 @@ const createStudentIntoDB = async (studentData: TStudent) => {
   return result;
 };
 const getAllStudentsFromDB = async () => {
-  const result = await Student.find();
+  const result = await Student.find()
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    })
+    .populate('admissionSemester');
+
   return result;
 };
 const getsingleStudentFromDB = async (id: string) => {
-  const result = await Student.findOne({ id });
+  const result = await Student.findOne({ id })
+    .populate('admissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
   return result;
 };
 const deleteStudentFromDB = async (id: string) => {
