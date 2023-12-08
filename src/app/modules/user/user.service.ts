@@ -1,7 +1,6 @@
 import httpStatus from 'http-status';
 import config from '../../config';
 import { AppError } from '../../errors/AppError';
-import { TAcademicSemester } from '../academicSemester/academicSemester.interface';
 import { academicSemester } from '../academicSemester/academicSemister.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -63,7 +62,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     await session.endSession();
 
     return newStudent;
-  } catch (err: any) {
+  } catch (err:any) {
     await session.abortTransaction();
     await session.endSession();
     throw new Error(err);
