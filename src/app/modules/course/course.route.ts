@@ -10,7 +10,7 @@ router.post(
   CourseControllers.createCourse,
 );
 
-router.get('/:facultyId', CourseControllers.getSingleCourse);
+router.get('/:id', CourseControllers.getSingleCourse);
 // router.patch(
 //   '/:facultyId',
 //   validateRequest(
@@ -20,10 +20,6 @@ router.get('/:facultyId', CourseControllers.getSingleCourse);
 // );
 
 router.get('/', CourseControllers.getAllCourses);
-router.patch(
-  '/:id',
-  validateRequest(CourseValidations.updateCourseValidationSchema),
-  CourseControllers.deleteCourse,
-);
+router.delete('/:id', CourseControllers.deleteCourse);
 
 export const CourseRoutes = router;
