@@ -19,6 +19,6 @@ router.patch(
   validateRequest(
     semesterRegistrationValidation.updateSemesterRegistrationvalidationSchema,
   ),
-  SemesterRegistrationController.getSingleSemesterRegistration,
+  SemesterRegistrationController.updateSemesterRegistration,
 );
 export const SemesterRegistrationtRoutes = router;
