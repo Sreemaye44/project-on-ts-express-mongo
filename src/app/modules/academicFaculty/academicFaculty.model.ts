@@ -1,6 +1,4 @@
 import { Schema, model } from 'mongoose';
-import config from '../../config';
-import bcrypt from 'bcrypt';
 import { TAcademicFaculty } from './academicFaculty.interface';
 
 const academicFacultySchema = new Schema<TAcademicFaculty>(
