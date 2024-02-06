@@ -74,11 +74,19 @@ const updateSemesterRegistrationintoDB = async (
     throw new AppError(httpStatus.NOT_FOUND, 'This semester is not found');
   }
   //if the requested semester registration is ended, we will not update anything
-  const requestedSemesterStatus = isSemesterRegistrationExists.status;
-  if (requestedSemesterStatus === 'ENDED') {
+  const currentSemesterStatus = isSemesterRegistrationExists.status;
+  const requestedStatus = payload.status;
+  if (currentSemesterStatus === 'ENDED') {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `This semester is already ${requestedSemesterStatus}`,
+      `This semester is already ${currentSemesterStatus}`,
+    );
+  }
+  //ensure 'UPCOMING--> ONGOING--> ENDED sequence
+  if (currentSemesterStatus === 'UPCOMING' && requestedStatus === 'ENDED') {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `you can not directly excchange status from ${currentSemesterStatus} to ${requestedStatus}`,
     );
   }
 };
